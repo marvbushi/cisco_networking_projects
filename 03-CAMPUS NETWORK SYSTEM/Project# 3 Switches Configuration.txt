@@ -1,0 +1,436 @@
+Project# 3: Switches Configuration
+
+ACCESS LAYER
+
+!ADMIN.SW
+
+enable
+configure terminal
+
+!
+hostname ADMIN.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 10
+exit
+
+!
+vlan 10
+name ADMIN
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!HR.SW
+
+enable
+configure terminal
+
+!
+hostname HR.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 20
+exit
+
+!
+vlan 20
+name HR
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!FINANCE.SW
+
+enable
+configure terminal
+
+!
+hostname FINANCE.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 30
+exit
+
+!
+vlan 30
+name FINANCE
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!BUSINESS.SW
+
+enable
+configure terminal
+
+!
+hostname BUSINESS.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 40
+exit
+
+!
+vlan 40
+name BUSINESS
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!EC.SW
+
+enable
+configure terminal
+
+!
+hostname EC.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 50
+exit
+
+!
+vlan 50
+name ENGINEER_COMPUTING
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!AD.SW
+
+enable
+configure terminal
+
+!
+hostname AD.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 60
+exit
+
+!
+vlan 60
+name ART_DESIGN
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!STUDEND-LAB.SW
+
+enable
+configure terminal
+
+!
+hostname STUDEND-LAB.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 70
+exit
+
+!
+vlan 70
+name STUDENT LAB
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!IT-DEPT.SW
+
+enable
+configure terminal
+
+!
+hostname IT-DEPT.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 80
+exit
+
+!
+vlan 80
+name IT-DEPT
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!STAFF.SW
+
+enable
+configure terminal
+
+!
+hostname STAFF.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 90
+exit
+
+!
+vlan 90
+name STAFF
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+!BRANCH-STUDLAB.SW
+
+enable
+configure terminal
+
+!
+hostname BRANCH-STUDLAB.SW
+
+!
+interface range fa0/1-24
+switchport mode access
+switchport access vlan 100
+exit
+
+!
+vlan 100
+name BRANCH-STUDLAB
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+DISTRIBUTION LAYER
+
+L3 SWITCH
+
+!MAIN-CAMPUS SWITCH
+!DIST.SW
+
+enable
+configure terminal
+
+!
+hostname DIST.SW
+
+!
+int g1/0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+!
+int g1/0/2
+switchport mode access
+switchport access vlan 10
+exit
+
+!
+vlan 10
+name ADMIN
+
+!
+int g1/0/3
+switchport mode access
+switchport access vlan 20
+exit
+
+!
+vlan 20
+name HR
+
+!
+int g1/0/4
+switchport mode access
+switchport access vlan 30
+exit
+
+!
+vlan 30
+name FINANCE
+
+!
+int g1/0/5
+switchport mode access
+switchport access vlan 40
+exit
+
+!
+vlan 40
+name BUSINESS
+
+!
+int g1/0/6
+switchport mode access
+switchport access vlan 50
+exit
+
+!
+vlan 50
+name ENGINEER_COMPUTING
+exit
+
+!
+int g1/0/7
+switchport mode access
+switchport access vlan 60
+exit
+
+!
+vlan 60
+name ART_DESIGN
+exit
+
+!
+int g1/0/8
+switchport mode access
+switchport access vlan 70
+exit
+
+!
+vlan 70
+name STUDENT LAB
+exit
+
+!
+int g1/0/9
+switchport mode access
+switchport access vlan 80
+exit
+
+!
+vlan 80
+name IT-DEPT
+exit
+
+!
+end
+wr
+
+!
+
+--------------------------------------
+
+L3 SWITCH
+
+!BRANCH L3 SWITCH
+!BRANCH-DIST.SW
+
+enable
+configure terminal
+
+!
+hostname BRANCH-DIST.SW
+
+!
+int g1/0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+!
+int g1/0/2
+switchport mode access
+switchport access vlan 90
+exit
+
+!
+vlan 90
+name STAFF
+
+!
+int g1/0/3
+switchport mode access
+switchport access vlan 100
+exit
+
+!
+vlan 100
+name BRANCH-STUDLAB
+exit
+
+!
+end
+wr
+
+!
+
+
+
+
+
+
+
+

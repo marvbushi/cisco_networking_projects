@@ -1,0 +1,232 @@
+Project# 3: Routers Configuration
+
+!MAIN-CAMPUS ROUTER
+!CORE.ROUTER
+
+enable
+configure terminal
+
+!
+hostname CORE.ROUTER
+
+!
+interface g0/0
+no shut
+
+!
+interface g0/0.10
+encapsulation dot1q 10
+ip address 192.168.1.1 255.255.255.0
+no shut
+
+!
+interface g0/0.20
+encapsulation dot1q 20
+ip address 192.168.2.1 255.255.255.0
+no shut
+
+!
+interface g0/0.30
+encapsulation dot1q 30
+ip address 192.168.3.1 255.255.255.0
+no shut
+
+!
+interface g0/0.40
+encapsulation dot1q 40
+ip address 192.168.4.1 255.255.255.0
+no shut
+
+!
+interface g0/0.50
+encapsulation dot1q 50
+ip address 192.168.5.1 255.255.255.0
+no shut
+
+!
+interface g0/0.60
+encapsulation dot1q 60
+ip address 192.168.6.1 255.255.255.0
+no shut
+
+!
+interface g0/0.70
+encapsulation dot1q 70
+ip address 192.168.7.1 255.255.255.0
+no shut
+
+!
+interface g0/0.80
+encapsulation dot1q 80
+ip address 192.168.8.1 255.255.255.0
+no shut
+
+!
+interface s0/0/0
+clock rate 64000
+ip add 10.10.10.5 255.255.255.252
+no shut
+
+!
+interface s0/0/1
+clock rate 64000
+ip add 10.10.10.1 255.255.255.252
+no shut
+
+!
+service dhcp
+
+!
+ip dhcp pool ADMIN-POOL
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 192.168.1.1
+
+!
+ip dhcp pool HR-POOL
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1
+dns-server 192.168.2.1
+
+!
+ip dhcp pool FINANCE-POOL
+network 192.168.3.0 255.255.255.0
+default-router 192.168.3.1
+dns-server 192.168.3.1
+
+!
+ip dhcp pool BUSINESS-POOL
+network 192.168.4.0 255.255.255.0
+default-router 192.168.4.1
+dns-server 192.168.4.1
+
+!
+ip dhcp pool E_C-POOL
+network 192.168.5.0 255.255.255.0
+default-router 192.168.5.1
+dns-server 192.168.5.1
+
+!
+ip dhcp pool A_D-POOL
+network 192.168.6.0 255.255.255.0
+default-router 192.168.6.1
+dns-server 192.168.6.1
+
+!
+ip dhcp pool STUDLABs-POOL
+network 192.168.7.0 255.255.255.0
+default-router 192.168.7.1
+dns-server 192.168.7.1
+
+!
+ip dhcp pool ITDEPART-POOL
+network 192.168.8.0 255.255.255.0
+default-router 192.168.8.1
+dns-server 192.168.8.1
+
+!
+router rip
+version 2
+network 192.168.1.0
+network 192.168.2.0
+network 192.168.3.0
+network 192.168.4.0
+network 192.168.5.0
+network 192.168.6.0
+network 192.168.7.0
+network 192.168.8.0
+network 10.10.10.0
+network 10.10.10.4
+
+!
+end
+wr
+
+------------------------------
+
+!CLOUD.ROUTER
+
+enable
+configure terminal
+
+!
+hostname CLOUD.ROUTER
+
+!
+interface g0/0
+ip address 20.0.0.1 255.255.255.252
+no shut
+
+!
+interface s0/0/0
+ip add 10.10.10.6 255.255.255.252
+no shut
+
+!
+router rip
+version 2
+network 10.10.10.4
+network 20.0.0.0
+
+!
+end
+wr
+
+------------------------------
+
+!BRANCH.ROUTER
+
+enable
+configure terminal
+
+!
+hostname BRANCH.ROUTER
+
+!
+interface g0/0
+no shut
+
+!
+interface g0/0.90
+encapsulation dot1q 90
+ip address 192.168.9.1 255.255.255.0
+no shut
+
+!
+interface g0/0.100
+encapsulation dot1q 100
+ip address 192.168.10.1 255.255.255.0
+no shut
+
+!
+interface s0/0/1
+ip add 10.10.10.2 255.255.255.252
+no shut
+
+!
+service dhcp
+
+!
+ip dhcp pool STAFF-POOL
+network 192.168.9.0 255.255.255.0
+default-router 192.168.9.1
+dns-server 192.168.9.1
+
+!
+ip dhcp pool STUDLAB-POOL
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+dns-server 192.168.10.1
+
+!
+router rip
+version 2
+network 192.168.9.0
+network 192.168.10.0
+network 10.10.10.0
+
+!
+end
+wr
+
+
