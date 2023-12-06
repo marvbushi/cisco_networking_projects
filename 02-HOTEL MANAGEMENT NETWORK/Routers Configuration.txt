@@ -1,0 +1,266 @@
+Routers Configurations:
+-----------------------
+
+!F3-Router
+
+enable
+configure terminal
+hostname F3-Router
+int s0/0/1
+ip add 10.10.10.2 255.255.255.252
+clock rate 64000
+no shut
+exit
+int s0/0/0
+clock rate 64000
+ip add 10.10.10.6 255.255.255.252
+no shut
+int g0/0
+no shut
+
+!Inter-VLAN Config
+
+!
+int g0/0.10
+encapsulation dot1Q 10
+ip address 192.168.1.1 255.255.255.0
+exit
+
+!
+int g0/0.20
+encapsulation dot1Q 20
+ip address 192.168.2.1 255.255.255.0
+exit
+
+! DHCP Server Config
+
+!
+service dhcp
+ip dhcp pool IT-POOL
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 192.168.1.1
+exit
+
+!
+service dhcp
+ip dhcp pool Admin-POOL
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1
+dns-server 192.168.2.1
+exit
+
+!OSPF Config
+
+!
+router ospf 10
+network 10.10.10.0 255.255.255.252 area 0
+network 10.10.10.4 255.255.255.252 area 0
+network 192.168.1.0 255.255.255.0 area 0
+network 192.168.2.0 255.255.255.0 area 0
+
+!SSH Config
+
+!
+ip domain-name smarthands
+username rock password rock123
+crypto key generate rsa -> 1024
+exit
+
+!
+line vty 0 15
+login local
+transport input ssh
+
+!
+end
+wr
+end
+wr
+sh run
+
+////////////////////////////////////////////////////
+
+!F2-Router
+
+enable
+configure terminal
+hostname F2-Router
+int s0/0/1
+ip add 10.10.10.10 255.255.255.252
+clock rate 64000
+no shut
+exit
+int s0/0/0
+ip add 10.10.10.1 255.255.255.252
+no shut
+int g0/0
+no shut
+
+!Inter-VLAN Config
+
+!
+int g0/0.50
+encapsulation dot1Q 50
+ip address 192.168.5.1 255.255.255.0
+exit
+
+!
+int g0/0.40
+encapsulation dot1Q 40
+ip address 192.168.4.1 255.255.255.0
+exit
+
+!
+int g0/0.30
+encapsulation dot1Q 30
+ip address 192.168.3.1 255.255.255.0
+exit
+
+! DHCP Server Config
+
+service dhcp
+ip dhcp pool Finance-POOL
+network 192.168.5.0 255.255.255.0
+default-router 192.168.5.1
+dns-server 192.168.5.1
+exit
+
+service dhcp
+ip dhcp pool HR-POOL
+network 192.168.4.0 255.255.255.0
+default-router 192.168.4.1
+dns-server 192.168.4.1
+exit
+
+service dhcp
+ip dhcp pool Sales-POOL
+network 192.168.3.0 255.255.255.0
+default-router 192.168.3.1
+dns-server 192.168.3.1
+exit
+
+!OSPF Config
+
+!
+router ospf 10
+network 10.10.10.0 255.255.255.252 area 0
+network 10.10.10.8 255.255.255.252 area 0
+network 192.168.3.0 255.255.255.0 area 0
+network 192.168.4.0 255.255.255.0 area 0
+network 192.168.5.0 255.255.255.0 area 0
+
+!SSH Config
+
+!
+ip domain-name smarthands
+username rock password rock123
+crypto key generate rsa -> 1024
+exit
+
+!
+line vty 0 15
+login local
+transport input ssh
+
+!
+end
+wr
+sh run
+
+////////////////////////////////////////////////////
+
+!F1-Router
+
+enable
+configure terminal
+
+!
+hostname F1-Router
+
+!
+int s0/0/1
+ip add 10.10.10.9 255.255.255.252
+no shut
+exit
+
+!
+int s0/0/0
+ip add 10.10.10.5 255.255.255.252
+no shut
+
+!
+int g0/0
+no shut
+exit
+
+!Inter-VLAN Config
+
+!
+int g0/0.80
+encapsulation dot1Q 80
+ip address 192.168.8.1 255.255.255.0
+exit
+
+!
+int g0/0.70
+encapsulation dot1Q 70
+ip address 192.168.7.1 255.255.255.0
+exit
+
+!
+int g0/0.60
+encapsulation dot1Q 60
+ip address 192.168.6.1 255.255.255.0
+exit
+
+! DHCP Server Config
+
+service dhcp
+ip dhcp pool Reception-POOL
+network 192.168.8.0 255.255.255.0
+default-router 192.168.8.1
+dns-server 192.168.8.1
+exit
+
+service dhcp
+ip dhcp pool Store-POOL
+network 192.168.7.0 255.255.255.0
+default-router 192.168.7.1
+dns-server 192.168.7.1
+exit
+
+service dhcp
+ip dhcp pool Logistics-POOL
+network 192.168.6.0 255.255.255.0
+default-router 192.168.6.1
+dns-server 192.168.6.1
+exit
+
+!OSPF Config
+
+!
+router ospf 10
+network 10.10.10.0 255.255.255.252 area 0
+network 10.10.10.8 255.255.255.252 area 0
+network 192.168.8.0 255.255.255.0 area 0
+network 192.168.7.0 255.255.255.0 area 0
+network 192.168.6.0 255.255.255.0 area 0
+
+!SSH Config
+
+!
+ip domain-name smarthands
+username rock password rock123
+crypto key generate rsa -> 1024
+exit
+
+!
+line vty 0 15
+login local
+transport input ssh
+
+!
+end
+wr
+sh run

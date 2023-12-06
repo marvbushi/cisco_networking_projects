@@ -1,0 +1,139 @@
+Switches Configuration:
+-----------------------
+
+!F1.SW01
+
+enable
+conf ter
+
+!
+hostname F1.SW01
+
+!
+int range fa0/2-3
+switchport mode access
+switchport access vlan 80
+exit
+
+!
+int range fa0/4-5
+switchport mode access
+switchport access vlan 70
+exit
+
+!
+int range fa0/6-8
+switchport mode access
+switchport access vlan 60
+exit
+
+!
+int fa0/1
+switchport mode trunk
+exit
+
+!
+vlan 60
+name Logistics
+vlan 70
+name Store
+vlan 80
+name Reception
+
+!
+end
+wr
+sh run
+
+/////////////////////////////////////////
+
+!F2.SW01
+
+!
+enable
+conf ter
+
+!
+hostname F2.SW01
+
+!
+int range fa0/2-3
+switchport mode access
+switchport access vlan 50
+exit
+
+!
+int range fa0/4-5
+switchport mode access
+switchport access vlan 40
+exit
+
+!
+int range fa0/6-8
+switchport mode access
+switchport access vlan 30
+exit
+
+!
+int fa0/1
+switchport mode trunk
+exit
+
+!
+vlan 30
+name Sales
+vlan 40
+name HR
+vlan 50
+name Finance
+end
+wr
+sh run
+
+/////////////////////////////////////////
+
+!F3.SW01
+
+!
+enable
+conf ter
+
+!
+hostname F3.SW01
+
+!
+int range fa0/2-3
+switchport mode access
+switchport access vlan 10
+exit
+
+!
+int range fa0/4-6
+switchport mode access
+switchport access vlan 20
+exit
+
+!
+int fa0/1
+switchport mode trunk
+exit
+
+!
+vlan 20
+name Admin
+vlan 10
+name IT
+
+!Port Security Config
+
+!
+int f0/2
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+
+end
+wr
+sh run
+
