@@ -1,0 +1,64 @@
+SOHO Network Design & Implementation
+
+XYZ is a fast-growing company in Eastern Australia with more than 2 million customers globally. The company deals with selling and buying of food items, which are basically operated from the headquarters. The company is intending to open a branch near the local village Bonaldo. Thus, the company requires young IT graduates to design the network for the branch. The network is intended to operate separately from the HQ network.
+
+Being a small network, the company has the following requirements during implementations:
+One router and one switch to be used (all Cisco products).
+3 departments: Admin/IT, Finance/HR, and Customer Service/Reception.
+Each department is required to be in different VLANS.
+Each department is required to have a wireless network for the users.
+Host devices in the network are required to obtain IPv4 addresses automatically.
+Devices in all the departments are required to communicate with each other.
+
+Assume the ISP gave out a base network of 192.168.1.0, you as the young network engineer who has been hired, design and implement a network considering the above requirements.
+
+Technologies Implemented
+Creating a Simple Network using a Router and Access Layer Switch.
+Connecting Networking devices with Correct cabling.
+Creating VLANs and assigning ports VLAN numbers.
+Subnetting and IP Addressing.
+Configuring Inter-VLAN Routing (Router on a stick).
+Configuring DHCP Server (Router as the DHCP Server).
+Configuring WLAN or wireless network (Cisco Access Point).
+Host Device Configurations.
+Test and Verifying Network Communication.
+
+Based Network: 192.168.1.0
+No. of Subnets = 3
+
+2^n = 3
+
+2^2 = 4 We need 2 to borrow bits
+
+Class C = 255.255.255.192 == 11111111. 11111111. 11111111. 11000000 == /26
+
+Admin/IT
+VLAN10
+Subnet Mask: 255.255.255.192
+Network IP: 192.168.1.0/26
+Broadcast IP: 192.168.1.63
+First IP: 192.168.1.0
+Last IP: 192.168.1.62
+
+Finance/HR
+VLAN20
+Subnet Mask: 255.255.255.192
+Network IP: 192.168.1.64/26
+Broadcast IP: 192.168.1.127
+First IP: 192.168.1.65
+Last IP: 192.168.1.126
+
+Customer Service/Reception
+VLAN30
+Subnet Mask: 255.255.255.192
+Network IP: 192.168.1.128/26
+Broadcast IP: 192.168.1.191
+First IP: 192.168.1.129
+Last IP: 192.168.1.190
+
+
+
+
+
+
+
