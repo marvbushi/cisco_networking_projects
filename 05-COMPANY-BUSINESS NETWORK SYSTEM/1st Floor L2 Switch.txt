@@ -1,0 +1,100 @@
+### 1st FLOOR L2 SWITCH ###
+
+!sales-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname sales-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 10
+name sales
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 10
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+BlackHole
+exit
+!
+end
+!
+wr
+!
+
+---------------------------------------
+
+!hr-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname hr-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 20
+name hr
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 20
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+BlackHole
+exit
+!
+end
+!
+wr
+!
+

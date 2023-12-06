@@ -1,0 +1,102 @@
+### 3rd FLOOR L2 SWITCH ###
+
+!ict-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname ict-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 50
+name ict
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 50
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+name BlackHole
+exit
+!
+end
+!
+wr
+!
+
+
+---------------------------------------
+
+!server-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname server-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 60
+name server-room
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 60
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+name BlackHole
+exit
+!
+end
+!
+wr
+!
+
+

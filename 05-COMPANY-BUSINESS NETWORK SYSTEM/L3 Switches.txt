@@ -1,0 +1,251 @@
+### L3 SWITCHES ###
+
+!dist-sw-01
+!basic config
+
+!
+enable
+config t
+!
+hostname dist-sw-01
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+!
+line vty 0 15
+login local
+transport input ssh
+exit
+!
+enable password cisco
+service password-encryption
+!
+vlan 10
+name sales
+exit
+!
+vlan 20
+name hr
+exit
+!
+vlan 30
+name finance
+exit
+!
+vlan 40
+name admin
+exit
+!
+vlan 50
+name ict
+exit
+!
+vlan 60
+name server-room
+exit
+!
+int range g1/0/3-8
+switchport mode trunk
+exit
+!
+int range g1/0/1-2
+no switchport
+exit
+!
+int g1/0/1
+ip address 172.16.3.145 255.255.255.128
+exit
+!
+int g1/0/2
+ip address 172.16.3.149 255.255.255.128
+exit
+!
+ip routing
+!
+router ospf 10
+network 0.0.0.0 0.0.0.0 area 0
+exit
+!
+ip routing
+!
+router ospf 10
+router-id 1.1.1.1
+network 172.16.3.144 0.0.0.3 area 0
+network 172.16.3.148 0.0.0.3 area 0
+network 172.16.1.0 0.0.0.127 area 0
+network 172.16.1.128 0.0.0.127 area 0
+network 172.16.2.0 0.0.0.127 area 0
+network 172.16.2.128 0.0.0.127 area 0
+network 172.16.3.0 0.0.0.127 area 0
+network 172.16.3.128 0.0.0.15 area 0
+exit
+!
+int vlan 10
+ip address 172.16.1.1 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 20
+ip address 172.16.1.129 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 30
+ip address 172.16.2.1 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 40
+ip address 172.16.2.129 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 50
+ip address 172.16.3.1 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 60
+ip address 172.16.3.129 255.255.255.240
+ip helper-address 172.16.3.130
+no shut
+!
+ip route 0.0.0.0 0.0.0.0 g1/0/1
+ip route 0.0.0.0 0.0.0.0 g1/0/2 70
+!
+end
+!
+wr
+!
+
+---------------------------------------------
+
+!dist-sw-02
+!basic config
+
+!
+enable
+config t
+!
+hostname dist-sw-02
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+!
+line vty 0 15
+login local
+transport input ssh
+exit
+!
+enable password cisco
+service password-encryption
+!
+vlan 10
+name sales
+exit
+!
+vlan 20
+name hr
+exit
+!
+vlan 30
+name finance
+exit
+!
+vlan 40
+name admin
+exit
+!
+vlan 50
+name ict
+exit
+!
+vlan 60
+name server-room
+exit
+!
+int range g1/0/3-8
+switchport mode trunk
+exit
+!
+int range g1/0/1-2
+no switchport
+exit
+!
+int g1/0/1
+ip address 172.16.3.153 255.255.255.252
+exit
+!
+int g1/0/2
+ip address 172.16.3.157 255.255.255.252
+exit
+!
+ip routing
+!
+router ospf 10
+router-id 2.2.2.2
+network 172.16.3.152 0.0.0.3 area 0
+network 172.16.3.156 0.0.0.3 area 0
+network 172.16.1.0 0.0.0.127 area 0
+network 172.16.1.128 0.0.0.127 area 0
+network 172.16.2.0 0.0.0.127 area 0
+network 172.16.2.128 0.0.0.127 area 0
+network 172.16.3.0 0.0.0.127 area 0
+network 172.16.3.128 0.0.0.15 area 0
+exit
+!
+int vlan 10
+ip address 172.16.1.2 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 20
+ip address 172.16.1.130 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 30
+ip address 172.16.2.2 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 40
+ip address 172.16.2.130 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 50
+ip address 172.16.3.2 255.255.255.128
+ip helper-address 172.16.3.130
+no shut
+!
+int vlan 60
+ip address 172.16.3.140 255.255.255.240
+ip helper-address 172.16.3.130
+no shut
+!
+ip route 0.0.0.0 0.0.0.0 g1/0/1
+ip route 0.0.0.0 0.0.0.0 g1/0/2 70
+!
+end
+!
+wr
+!

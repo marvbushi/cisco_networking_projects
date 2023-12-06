@@ -1,0 +1,187 @@
+### CORE ROUTERS ###
+
+!core-rtr-01
+!basic config
+
+!
+enable
+config t
+!
+hostname core-rtr-01
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+!
+line vty 0 15
+login local
+transport input ssh
+exit
+!
+ip ssh version 2
+!
+enable password cisco
+service password-encryption
+!
+int g0/0
+ip address 172.16.3.146 255.255.255.252
+exit
+!
+int g0/1
+ip address 172.16.3.154 255.255.255.252
+exit
+!
+int s0/0/0
+ip address 195.136.17.1 255.255.255.252
+clock rate 64000
+exit
+!
+int s0/0/1
+ip address 195.136.17.5 255.255.255.252
+clock rate 64000
+exit
+!
+router ospf 10
+router-id 3.3.3.3
+network 172.16.3.144 0.0.0.3 area 0
+network 172.16.3.152 0.0.0.3 area 0
+network 195.136.17.0 0.0.0.3 area 0
+network 195.136.17.4 0.0.0.3 area 0
+network 172.16.1.0 0.0.0.127 area 0
+network 172.16.1.128 0.0.0.127 area 0
+network 172.16.2.0 0.0.0.127 area 0
+network 172.16.2.128 0.0.0.127 area 0
+network 172.16.3.0 0.0.0.127 area 0
+network 172.16.3.128 0.0.0.15 area 0
+exit
+!
+ip nat inside source list 1 interface s0/0/0 overload
+ip nat inside source list 1 interface s0/0/1 overload
+!
+access-list 1 permit 172.16.1.0 0.0.0.127
+access-list 1 permit 172.16.1.128 0.0.0.127
+access-list 1 permit 172.16.2.0 0.0.0.127
+access-list 1 permit 172.16.2.128 0.0.0.127
+access-list 1 permit 172.16.3.0 0.0.0.127
+access-list 1 permit 172.16.3.128 0.0.0.15
+exit
+!
+int range g0/0-1
+ip nat inside
+exit
+!
+int range s0/0/0-1
+ip nat outside
+exit
+!
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 0.0.0.0 0.0.0.0 s0/0/1 70
+!
+end
+!
+wr
+!
+
+------------------------------------------
+
+!core-rtr-02
+!basic config
+
+!
+enable
+config t
+!
+hostname core-rtr-02
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+!
+line vty 0 15
+login local
+transport input ssh
+exit
+!
+ip ssh version 2
+!
+enable password cisco
+service password-encryption
+!
+int g0/0
+ip address 172.16.3.150 255.255.255.252
+exit
+!
+int g0/1
+ip address 172.16.3.158 255.255.255.252
+exit
+!
+int s0/0/0
+ip address 195.136.17.13 255.255.255.252
+clock rate 64000
+exit
+!
+int s0/0/1
+ip address 195.136.17.9 255.255.255.252
+clock rate 64000
+exit
+!
+router ospf 10
+network 0.0.0.0 0.0.0.0 area 0
+exit
+!
+router ospf 10
+router-id 4.4.4.4
+network 172.16.3.148 0.0.0.3 area 0
+network 172.16.3.156 0.0.0.3 area 0
+network 195.136.17.8 0.0.0.3 area 0
+network 195.136.17.12 0.0.0.3 area 0
+network 172.16.1.0 0.0.0.127 area 0
+network 172.16.1.128 0.0.0.127 area 0
+network 172.16.2.0 0.0.0.127 area 0
+network 172.16.2.128 0.0.0.127 area 0
+network 172.16.3.0 0.0.0.127 area 0
+network 172.16.3.128 0.0.0.15 area 0
+exit
+!
+ip nat inside source list 1 interface s0/0/0 overload
+ip nat inside source list 1 interface s0/0/1 overload
+!
+access-list 1 permit 172.16.1.0 0.0.0.127
+access-list 1 permit 172.16.1.128 0.0.0.127
+access-list 1 permit 172.16.2.0 0.0.0.127
+access-list 1 permit 172.16.2.128 0.0.0.127
+access-list 1 permit 172.16.3.0 0.0.0.127
+access-list 1 permit 172.16.3.128 0.0.0.15
+exit
+!
+int range g0/0-1
+ip nat inside
+exit
+!
+int range s0/0/0-1
+ip nat outside
+exit
+!
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 0.0.0.0 0.0.0.0 s0/0/1 70
+!
+end
+!
+wr
+!

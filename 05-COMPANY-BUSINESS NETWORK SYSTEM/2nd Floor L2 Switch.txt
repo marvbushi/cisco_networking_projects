@@ -1,0 +1,105 @@
+### 2nd FLOOR L2 SWITCH ###
+
+!finance-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname finance-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 30
+name finance
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 30
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+name BlackHole
+exit
+!
+end
+!
+wr
+!
+
+---------------------------------------
+
+!admin-sw
+!basic config
+
+!
+enable
+config t
+!
+hostname admin-sw
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+no ip domain-lookup
+!
+line console 0
+password cisco
+login
+!
+enable password cisco
+service password-encryption
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+vlan 40
+name admin
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 40
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+exit
+!
+int range g0/1-2
+switchport mode access
+switchport access vlan 99
+shut
+exit
+!
+vlan 99
+name BlackHole
+exit
+!
+end
+!
+wr
+!
+
+
