@@ -1,0 +1,124 @@
+fin-rtr
+
+!
+enable
+conf t
+!
+hostname fin-rtr
+!
+enable password cisco
+!
+line console 0
+password cisco
+login
+exit
+!
+username admin password cisco
+ip domain name cisco.com
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+!
+line vty 0 15
+transport input ssh
+login local
+exit
+!
+no ip domain-lookup
+!
+banner motd #NO UNAUTHORIZED ACCESS, THIS IS PUNISHABLE BY LAW#
+!
+service password-encryption
+!
+int f0/0
+ip add 10.10.10.1 255.255.255.252
+exit
+!
+int f0/1
+ip add 10.10.10.5 255.255.255.252
+exit
+!
+int fa1/0.10
+encapsulation dot1q 10
+ip add 192.168.100.1 255.255.255.224
+ip helper-address 192.168.100.130
+exit
+!
+int fa1/0.100
+encapsulation dot1q 100
+ip add 172.16.100.1 255.255.255.224
+exit
+!
+service dhcp
+ip dhcp excluded-address 172.16.100.1
+ip dhcp pool FinVoicePool
+network 172.16.100.0 255.255.255.224
+default-router 172.16.100.1
+option 150 ip 172.16.100.1
+!
+router ospf 10
+router-id 1.1.1.1
+network 10.10.10.0 0.0.0.3 area 0
+network 10.10.10.4 0.0.0.3 area 0
+network 192.168.100.0 0.0.0.31 area 0
+network 172.16.100.0 0.0.0.31 area 0
+!
+telephony-service
+max-dn 20
+max-ephones 20
+ip source-address 172.168.100.0 port 2000
+auto assign 1 to 20
+!
+ephone-dn 1
+number 101
+!
+ephone-dn 2
+number 102
+!
+ephone-dn 3
+number 103
+!
+ephone-dn 4
+number 104
+!
+ephone-dn 5
+number 105
+!
+ephone-dn 6
+number 106
+!
+ephone-dn 7
+number 107
+!
+ephone-dn 8
+number 108
+!
+ephone-dn 9
+number 109
+!
+ephone-dn 10
+number 110
+!
+ephone-dn 11
+number 111
+!
+ephone-dn 12
+number 112
+!
+dial-peer voice 1 voip
+destination-pattern 2..
+session target ipv4:10.10.10.2
+exit
+!
+dial-peer voice 2 voip
+destination-pattern 4..
+session target ipv4:10.10.10.6
+exit
+!
+dial-peer voice 3 voip
+destination-pattern 3..
+session target ipv4:10.10.10.10
+exit
+!
+end
+wr
+!

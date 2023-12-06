@@ -1,0 +1,40 @@
+ict-sw
+
+!
+enable
+conf t
+!
+hostname ict-sw
+!
+enable password cisco
+!
+line console 0
+password cisco
+login
+exit
+!
+no ip domain-lookup
+!
+banner motd #NO UNAUTHORIZED ACCESS, THIS IS PUNISHABLE BY LAW#
+!
+service password-encryption
+!
+int f0/1
+switchport mode trunk
+exit
+!
+vlan 40
+name DATA
+!
+vlan 100
+name VOICE
+!
+int range f0/2-24
+switchport mode access
+switchport access vlan 40
+switchport voice vlan 100
+exit
+!
+end
+wr
+!

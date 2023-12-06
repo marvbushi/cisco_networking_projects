@@ -1,0 +1,36 @@
+svr-sw
+
+!
+enable
+conf t
+!
+hostname svr-sw
+!
+enable password cisco
+!
+line console 0
+password cisco
+login
+exit
+!
+no ip domain-lookup
+!
+banner motd #NO UNAUTHORIZED ACCESS, THIS IS PUNISHABLE BY LAW#
+!
+service password-encryption
+!
+int f0/1
+switchport mode trunk
+exit
+!
+vlan 50
+name DATA
+!
+int range f0/2-5
+switchport mode access
+switchport access vlan 50
+exit
+!
+end
+wr
+!
