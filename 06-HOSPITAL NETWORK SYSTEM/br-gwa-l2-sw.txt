@@ -1,0 +1,37 @@
+!br-gwa-l2-sw
+
+!
+en
+conf t
+!
+hostname br-gwa-l2-sw
+!
+enable password cisco
+!
+no ip domain-lookup 
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+line console 0
+password cisco
+login
+exit
+!
+service password-encryption 
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 130
+exit
+!
+vlan 130
+name br-gwa-departm
+exit
+!
+end
+wr
+!

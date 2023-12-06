@@ -1,0 +1,95 @@
+!hq-l3-sw01
+
+!
+en
+conf t
+!
+hostname hq-l3-sw01
+!
+enable password cisco
+!
+no ip domain-lookup 
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+line console 0
+password cisco
+login
+exit
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+!
+line vty 0 15
+transport input ssh
+login local
+exit
+!
+service password-encryption 
+!
+vlan 10
+vlan 20
+vlan 30
+vlan 40
+vlan 50
+vlan 60
+!
+int range g1/0/2-7
+switchport mode trunk
+exit
+!
+int g1/0/1
+no switchport
+ip add 192.168.102.81 255.255.255.252
+exit
+!
+ip routing
+!
+router ospf 10
+router-id 1.1.1.1
+network 192.168.100.0 0.0.0.63 area 0
+network 192.168.100.64 0.0.0.63 area 0
+network 192.168.100.128 0.0.0.63 area 0
+network 192.168.100.192 0.0.0.63 area 0
+network 192.168.101.0 0.0.0.63 area 0
+network 192.168.101.64 0.0.0.63 area 0
+network 192.168.102.80 0.0.0.3 area 0
+exit
+!
+ip route 0.0.0.0 0.0.0.0 192.168.102.82
+exit
+!
+int vlan 10
+ip add 192.168.100.1 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+int vlan 20
+ip add 192.168.100.65 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+int vlan 30
+ip add 192.168.100.129 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+int vlan 40
+ip add 192.168.100.193 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+int vlan 50
+ip add 192.168.101.1 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+int vlan 60
+ip add 192.168.101.65 255.255.255.192
+ip helper-address 192.168.102.67
+exit
+!
+end
+wr
+!

@@ -1,0 +1,16 @@
+######## CONFIG GUIDE OR STEPS ########
+
+0. Network Design and Configuration.
+1. Basic settings to all devices plus ssh on the routers and L3 switches.
+2. VLANs assigments plus all access and trunk ports on L2 and L3 siwtches.
+3. Switchport security to server-side department.
+4. Subnetting and IP addressing.
+5. OSPF on the routers and L3 switches.
+6. Static IP address to server room devices.
+7. DHCP server device configuration.
+8. Inter-VLAN routing on the L3 switches plus ip helper address.
+9. Wireless network configuration.
+10. Site-to-Site IPSec VPN.
+11. Default static route.
+12. PAT plus ACL.
+13. Verify and test configuration.

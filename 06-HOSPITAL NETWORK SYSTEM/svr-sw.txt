@@ -1,0 +1,44 @@
+!svr-sw
+
+!
+en
+conf t
+!
+hostname svr-sw
+!
+enable password cisco
+!
+no ip domain-lookup 
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+line console 0
+password cisco
+login
+exit
+!
+service password-encryption 
+!
+int range f0/1-2
+switchport mode trunk
+exit
+!
+int range f0/3-24
+switchport mode access
+switchport access vlan 70
+exit
+!
+vlan 70
+name server-departm
+exit
+!
+int range f0/3-24
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+exit
+!
+end
+wr
+!

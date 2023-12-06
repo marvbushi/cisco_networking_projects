@@ -1,0 +1,140 @@
+!hq-rtr
+
+!
+en
+conf t
+!
+hostname hq-rtr
+!
+enable password cisco
+!
+no ip domain-lookup 
+!
+banner motd #NO UNAUTHORIZED ACCESS#
+!
+line console 0
+password cisco
+login
+exit
+!
+ip domain-name cisco.com
+username admin password cisco
+crypto key generate rsa
+1024
+!
+line vty 0 15
+transport input ssh
+login local
+exit
+!
+service password-encryption 
+!
+int g0/0
+ip add 192.168.102.86 255.255.255.252
+exit
+!
+int g0/1
+ip add 192.168.102.82 255.255.255.252
+exit
+!
+int g0/2
+!no ip add 192.168.102.65 255.255.255.240
+exit
+!
+int g0/2.70
+encapsulation dot1q 70
+ip add 192.168.102.65 255.255.255.240
+exit
+!
+int s0/0/0
+clock rate 64000
+ip add 192.168.102.89 255.255.255.252
+exit
+!
+int s0/0/1
+clock rate 64000
+ip add 195.136.17.1 255.255.255.252
+exit
+!
+int s0/1/0
+clock rate 64000
+ip add 195.136.17.5 255.255.255.252
+exit
+!
+router ospf 10
+router-id 3.3.3.3
+network 192.168.102.80 0.0.0.3 area 0
+network 192.168.102.84 0.0.0.3 area 0
+network 192.168.102.88 0.0.0.3 area 0
+network 195.136.17.0 0.0.0.3 area 0 
+network 195.136.17.4 0.0.0.3 area 0
+exit
+!
+ip route 0.0.0.0 0.0.0.0 195.136.17.2
+ip route 0.0.0.0 0.0.0.0 195.136.17.6 70
+exit
+!
+int se0/0/1
+ip nat outside
+exit
+!
+!
+int se0/1/0
+ip nat outside
+exit
+!
+int range g0/0-2
+ip nat inside
+exit
+!
+ip nat inside source list 1 interface se0/0/1
+ip nat inside source list 1 interface se0/1/0
+!
+access-list 1 permit 192.168.100.0 0.0.0.63
+access-list 1 permit 192.168.100.64 0.0.0.63
+access-list 1 permit 192.168.100.128 0.0.0.63
+access-list 1 permit 192.168.100.192 0.0.0.63
+access-list 1 permit 192.168.101.0 0.0.0.63
+access-list 1 permit 192.168.101.64 0.0.0.63
+!
+license boot module c2900 technology-package securityk9
+reload
+!
+access-list 110 permit ip 192.168.100.0 0.0.0.255 192.168.101.128 0.0.0.255
+access-list 110 permit ip 192.168.101.0 0.0.0.127 192.168.101.128 0.0.0.255
+!
+!( 192.168.100.0/26
+!  192.168.100.64/26
+!  192.168.100.128/26
+!  192.168.100.192/26
+!)					-- Sumarised as 192.168.100.0/24
+!
+!( 192.168.101.0/26
+!  192.168.101.64/26
+!)					-- Sumarised as 192.168.101.0/25
+!
+crypto isakmp policy 10
+encryption aes 256
+authentication pre-share
+group 5
+exit
+!
+crypto isakmp key vpn12345
+crypto isakmp key vpn12345 address 192.168.102.90
+!
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
+!
+crypto map VPN-MAP 10 ipsec-isakmp
+description This VPN connects to Branch-Network
+set peer 192.168.102.90
+set transform-set VPN-SET
+match address 110
+exit
+!
+int s0/0/0
+crypto map VPN-MAP
+exit
+!
+end
+wr
+!
